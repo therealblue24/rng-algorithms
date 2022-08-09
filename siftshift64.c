@@ -1,7 +1,8 @@
-#include <stdio.h>
+/* All this code is published to public domain. See the
+ * license file in the root folder for more info.
+ */
+
 #include <stdint.h>
-#include <assert.h>
-#include <time.h>
 
 typedef uint64_t rand_t;
 
@@ -22,6 +23,12 @@ rand_t sift(rand_t in) {
     return out;
 }
 
+/*
+ * Main siftshift64 RNG function. If using a seed, do
+ * siftshift64(seed). When needing to generate another
+ * number do: siftshift64([insert previous siftshift64 result here])
+ */
+
 rand_t siftshift64(rand_t prev) {
     rand_t out = sift(prev);
     out >>= 1;
@@ -37,22 +44,4 @@ rand_t siftshift64(rand_t prev) {
         out *= out;
     }
     return out;
-}
-
-/* Splitmix64 + Siftshift64 */
-
-rand_t siftshift64_drng(rand_t prev) {
-    rand_t st = prev + 1;
-    st ^= 5;
-    st += 0x9e3779b97f4a7c15;
-    rand_t z = st;
-    z = (z ^ (z >> 30)) * 0xbf58476d1ce4e5b9;
-    z = (z ^ (z >> 27)) * 0x94d049bb133111eb;
-    return siftshift64(z ^ (z >> 31));
-}
-
-/* For debugging.  Easier to read and type. */
-#define opt1_rand siftshift64
-int main() {
-    printf("%ld\t\t\t%ld\n", opt1_rand(time(NULL)), opt1_rand(opt1_rand(time(NULL))));
 }
