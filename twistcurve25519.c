@@ -5,7 +5,7 @@
 #include <math.h> /* sqrt() */
 typedef uint64_t rand_t;
 
-
+/* base to the power of exp */
 rand_t pow_l(rand_t base, rand_t exp) {
     rand_t out = 1;
     for(rand_t i=0;i<exp;i++) {
