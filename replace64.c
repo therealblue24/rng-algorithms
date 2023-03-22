@@ -30,7 +30,7 @@ rand_t replace64_helper_squared_curve25519(rand_t i)
 }
 rand_t replace64_helper_null(rand_t i)
 {
-	return i;
+	return i + 257;
 }
 
 /*
